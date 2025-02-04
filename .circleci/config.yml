@@ -15,6 +15,9 @@ jobs:
       - run:
           name: Run Container
           command: docker run -d -p 8080:8080 --name test-container mon-app:latest
+        - run:
+          name: Debug - Liste des conteneurs
+          command: docker ps -a
       - run:
           name: Test if app is responding
           command: |
