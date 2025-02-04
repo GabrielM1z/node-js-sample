@@ -1,13 +1,9 @@
 version: 2.1
 
-executors:
-  machine-executor:
-    machine:
-      - image: ubuntu-2204:current
-
 jobs:
   build:
-    executor: machine-executor
+    machine:  # Utilisation d'une machine virtuelle au lieu d'un conteneur Docker
+      image: ubuntu-2204:current  # Image Ubuntu avec Docker préinstallé
     steps:
       - checkout  # Récupère le code du repo
       - run:
