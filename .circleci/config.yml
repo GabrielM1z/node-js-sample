@@ -13,6 +13,14 @@ jobs:
       - run:
           name: Build Docker image
           command: docker build -t mon-image:latest .
+        - run:
+          name: Run Container
+          command: docker run -d -p 3000:3000 --name test-container mon-app:latest
+      - run:
+          name: Test if app is responding
+          command: |
+            sleep 5  # Attendre que le container démarre
+            curl --fail http://localhost:3000 || exit 1
 
 workflows:
   version: 2
