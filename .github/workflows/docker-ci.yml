@@ -1,0 +1,39 @@
+name: Build and Push Docker Image
+
+on:
+  push:
+    branches:
+      - main  # Déclenche l'action lorsqu'il y a un push sur la branche main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # Utilisation d'une machine Ubuntu avec Docker préinstallé
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4  # Récupère le code du repo
+
+      - name: Check Docker Version
+        run: docker --version
+
+      - name: Build Docker image
+        run: docker build -t mon-app:latest .
+
+      - name: Run Container
+        run: docker run -d -p 8080:8080 --name test-container mon-app:latest
+
+      - name: Debug - Liste des conteneurs
+        run: docker ps -a
+
+      - name: Test if app is responding
+        run: |
+          sleep 5  # Attendre que le container démarre
+          curl --fail http://127.0.0.1:8080 || exit 1
+
+      - name: Login to Docker Hub
+        run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      - name: Tag and Push Image
+        run: |
+          docker tag mon-app:latest ${{ secrets.DOCKERHUB_USERNAME }}/mon-app:latest
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/mon-app:latest
