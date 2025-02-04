@@ -2,19 +2,17 @@ version: 2.1
 executors:
   docker-executor:
     docker:
-      - image: circleci/node:latest
+      - image: cimg/base:stable
 
 jobs:
   build:
     executor: docker-executor
     steps:
-      - checkout
-      - run:
-          name: Install dependencies
-          command: npm install
+      - checkout  # Récupère le code du repo
+      - setup_remote_docker  # Permet d'utiliser Docker dans le job
       - run:
           name: Build Docker image
-          command: docker build -t my-app .
+          command: docker build -t mon-image:latest .
 
 workflows:
   version: 2
