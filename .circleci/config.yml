@@ -1,15 +1,18 @@
 version: 2.1
+
 executors:
-  docker-executor:
-    docker:
+  machine-executor:
+    machine:
       - image: cimg/base:stable
 
 jobs:
   build:
-    executor: docker-executor
+    executor: machine-executor
     steps:
       - checkout  # Récupère le code du repo
-      - setup_remote_docker  # Permet d'utiliser Docker dans le job
+      - run:
+          name: Check Docker Version
+          command: docker --version
       - run:
           name: Build Docker image
           command: docker build -t mon-app:latest .
@@ -20,7 +23,7 @@ jobs:
           name: Test if app is responding
           command: |
             sleep 5  # Attendre que le container démarre
-            curl --fail http://127.0.0.1:8080 || exit 1
+            curl --fail http://localhost:8080 || exit 1
 
 workflows:
   version: 2
