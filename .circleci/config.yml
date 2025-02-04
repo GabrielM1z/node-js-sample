@@ -3,7 +3,7 @@ version: 2.1
 executors:
   machine-executor:
     machine:
-      - image: cimg/base:stable
+      - image: ubuntu-2204:current
 
 jobs:
   build:
