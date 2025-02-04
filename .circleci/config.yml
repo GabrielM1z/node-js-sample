@@ -23,6 +23,13 @@ jobs:
           command: |
             sleep 5  # Attendre que le container démarre
             curl --fail http://127.0.0.1:8080 || exit 1
+      - run:
+          name: Login to Docker Hub
+          command: |
+            echo "$DOCKERHUB_PASSWORD" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+      - run:
+          name: Push Docker image to Docker Hub
+          command: docker push mon-app:latest
 
 workflows:
   version: 2
