@@ -13,7 +13,7 @@ jobs:
       - run:
           name: Build Docker image
           command: docker build -t mon-image:latest .
-        - run:
+      - run:
           name: Run Container
           command: docker run -d -p 3000:3000 --name test-container mon-app:latest
       - run:
