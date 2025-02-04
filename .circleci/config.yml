@@ -12,7 +12,7 @@ jobs:
       - setup_remote_docker  # Permet d'utiliser Docker dans le job
       - run:
           name: Build Docker image
-          command: docker build -t mon-image:latest .
+          command: docker build -t mon-app:latest .
       - run:
           name: Run Container
           command: docker run -d -p 3000:3000 --name test-container mon-app:latest
