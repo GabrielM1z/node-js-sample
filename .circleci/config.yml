@@ -66,13 +66,8 @@ jobs:
       - run:
           name: Test if app is responding
           command: |
-            for i in {1..10}; do
-              curl --fail http://127.0.0.1:8080 && exit 0
-              echo "Waiting for server..."
-              sleep 2
-            done
-            echo "Server did not start in time"
-            exit 1
+            sleep 5  # Attendre que le container démarre
+            curl --fail http://127.0.0.1:8080 || exit 1
       - docker/push:  # Utilisation de l’orbe pour push l’image
           image: "$DOCKERHUB_USERNAME/mon-app"
           tag: "latest"
