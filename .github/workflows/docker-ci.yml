@@ -1,6 +1,7 @@
 name: Build and Push Docker Image
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main  # Déclenche l'action lorsqu'il y a un push sur la branche main
